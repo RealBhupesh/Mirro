@@ -4,6 +4,8 @@ Mirror the camera video other people see in **Google Meet** and **Microsoft Team
 
 **[Download the Chrome extension ZIP](https://github.com/RealBhupesh/Mirro/releases/latest/download/mirro-chrome-extension.zip)** · [Browse releases](https://github.com/RealBhupesh/Mirro/releases) · [Download the full source ZIP](https://github.com/RealBhupesh/Mirro/archive/refs/heads/main.zip)
 
+The companion product site is maintained in [`website/`](website/). It introduces Mirro’s camera effects, includes an interactive sample-feed demo, and walks through installing the Chrome extension.
+
 <img src="docs/images/chrome-popup.png" alt="Mirro’s Chrome popup with outgoing mirroring enabled and the live video effects visible" width="320">
 
 ## Install in Chrome
@@ -78,6 +80,7 @@ For signed testing, follow the `VERIFY-ON-MAC` notes in the native code. Check e
 
 | Path | What it contains |
 | --- | --- |
+| [website](website) | Product landing page, interactive demo, feature overview, and Chrome installation guide. |
 | [ChromeExtension](ChromeExtension) | Manifest V3 extension, popup, preference bridge, and video processing pipeline. |
 | [App](App) | macOS menu bar controls, camera capture, and system extension activation. |
 | [CameraExtension](CameraExtension) | Core Media I/O virtual camera and its frame relay. |

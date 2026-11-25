@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1744d7">
+  <meta name="description" content="Mirro is a Chrome extension for Google Meet and Teams on the web. Mirror your outgoing video and play with Twin Mode, Confetti, Approved, and Snap.">
+  <title>Mirro · A little twist for your camera</title>
+  <link rel="icon" href="assets/mirro.png" type="image/png">
+  <link rel="preload" href="assets/gambarino.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script src="demo.js" defer></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main id="main">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-landscape" aria-hidden="true"></div>
+      <div class="hero-grass" aria-hidden="true"></div>
+      <header class="site-header">
+        <a class="wordmark" href="#top" aria-label="Mirro home"><img src="assets/mirro.png" alt="" width="33" height="33"><span>Mirro</span></a>
+        <nav aria-label="Main navigation">
+          <a href="#demo">Try it</a>
+          <a href="#effects">Features</a>
+          <a href="#install">Install</a>
+        </nav>
+        <a class="repo-link text-link" href="https://github.com/RealBhupesh/Mirro">GitHub <span aria-hidden="true">↗</span></a>
+      </header>
+
+      <div class="hero-copy">
+        <h1 id="page-title">Give your camera<br>a little twist.</h1>
+        <p>Flip the video other people see in Google Meet and Microsoft Teams on the web. Add a live effect whenever it fits.</p>
+        <a class="button button-light" href="https://github.com/RealBhupesh/Mirro/releases/latest/download/mirro-chrome-extension.zip">
+          Download for Chrome <span class="download-icon" aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div class="camera-demo" id="demo" data-mode="mirror">
+        <div class="demo-frame">
+          <div class="demo-heading">
+            <h2>Camera demo</h2>
+            <span>Sample feed <span class="sample-divider" aria-hidden="true">/</span> Camera stays off</span>
+          </div>
+          <div class="demo-feeds" aria-hidden="true">
+            <figure class="feed">
+              <img src="assets/camera.webp" alt="" width="1040" height="694" fetchpriority="high">
+              <figcaption>Original</figcaption>
+            </figure>
+            <figure class="feed outgoing">
+              <div class="feed-photo"></div>
+              <div class="twin-photos"><div></div><div></div></div>
+              <div class="saved-room"></div>
+              <span class="stamp">APPROVED</span>
+              <div class="confetti"></div>
+              <figcaption>Outgoing <span class="feed-mode" id="feed-mode">· Mirrored</span></figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="demo-controls" aria-label="Camera effects">
+          <button type="button" data-mode="original" aria-pressed="false">Original</button>
+          <button type="button" data-mode="mirror" aria-pressed="true">Mirror</button>
+          <button type="button" data-mode="twin" aria-pressed="false">Twin</button>
+          <button type="button" data-effect="confetti">Confetti</button>
+          <button type="button" data-effect="approved">Approved</button>
+          <button type="button" data-mode="snap" aria-pressed="false">Snap</button>
+        </div>
+        <p class="sr-only" id="demo-status" role="status">The outgoing sample is flipped horizontally.</p>
+      </div>
+      <p class="hero-note">Free and open source <span aria-hidden="true">·</span> Runs locally in Chrome</p>
+    </section>
+
+    <section class="effects-section page-width" id="effects" aria-labelledby="effects-title">
+      <div class="section-heading">
+        <h2 id="effects-title">A different side<br>of the call.</h2>
+        <p>Mirro changes the camera feed you send. Switch on mirroring for your whole call or drop in an effect for a moment.</p>
+      </div>
+
+      <div class="feature-layout">
+        <article class="feature mirror-feature">
+          <div class="mirror-art" aria-label="A test frame showing legible lettering next to its reflected version" role="img">
+            <img src="assets/mirroring-off.png" alt="" width="1280" height="720" loading="lazy">
+            <img src="assets/mirroring-on.png" alt="" width="1280" height="720" loading="lazy">
+          </div>
+          <div class="feature-copy">
+            <h3>Mirror your feed</h3>
+            <p>Flip the actual feed horizontally. Your meeting app can still mirror its local preview independently.</p>
+          </div>
+        </article>
+
+        <article class="feature live-feature">
+          <div class="live-art" aria-hidden="true">
+            <div class="live-twin"><span></span><span></span></div>
+            <span class="live-stamp">APPROVED</span>
+            <span class="confetti-mark one"></span><span class="confetti-mark two"></span>
+            <span class="confetti-mark three"></span><span class="confetti-mark four"></span>
+          </div>
+          <div class="feature-copy">
+            <h3>Play to the room</h3>
+            <p><strong>Twin Mode</strong> reflects half your feed. <strong>Confetti</strong> adds a quick burst, and <strong>Approved</strong> drops a stamp on the video.</p>
+          </div>
+        </article>
+
+        <article class="feature snap-feature">
+          <div class="snap-photo">
+            <img src="assets/room.webp" alt="An empty chair, oak shelf, and leafy plant in a home office" width="1040" height="694" loading="lazy">
+          </div>
+          <div class="feature-copy">
+            <h3>Vanish with Snap.</h3>
+            <p>Capture an empty frame of your room. Click <strong>Snap</strong> or arm <strong>Swipe to snap</strong> to dissolve into that frame. Hit <strong>Return</strong> to come back live.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="installation" id="install" aria-labelledby="install-title">
+      <div class="page-width">
+        <div class="install-intro">
+          <h2 id="install-title">Set up Mirro <span>in Chrome.</span></h2>
+          <div class="install-download">
+            <a class="button button-light" href="https://github.com/RealBhupesh/Mirro/releases/latest/download/mirro-chrome-extension.zip">Download extension ZIP <span class="download-icon" aria-hidden="true"></span></a>
+            <p>Desktop Chrome 111 or later</p>
+          </div>
+        </div>
+
+        <ol class="steps" role="list" aria-label="Installation steps">
+          <li>
+            <h3>Extract the ZIP</h3>
+            <p>Unzip the download into a folder you can keep.</p>
+          </li>
+          <li>
+            <h3>Open Extensions</h3>
+            <p>Open this address in Chrome and turn on <strong>Developer mode</strong>.</p>
+            <div class="address">
+              <code id="extensions-url">chrome://extensions</code>
+              <button class="copy-button" id="copy-url" type="button" aria-describedby="extensions-url">Copy address</button>
+              <span class="sr-only" id="copy-status" role="status"></span>
+            </div>
+          </li>
+          <li>
+            <h3>Load unpacked</h3>
+            <p>Select the extracted <code>ChromeExtension</code> folder, then refresh your Meet or Teams tab. Keep using your regular camera.</p>
+          </li>
+        </ol>
+
+        <div class="privacy">
+          <h3>Video processing stays in Chrome.</h3>
+          <p>Mirro changes video frames locally. Chrome saves your mirror preference, the room image stays in the meeting tab, and your meeting app handles your microphone.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-width footer-inner">
+      <a class="wordmark" href="#top" aria-label="Mirro home"><img src="assets/mirro.png" alt="" width="30" height="30"><span>Mirro</span></a>
+      <div class="footer-links">
+        <a class="text-link" href="https://github.com/RealBhupesh/Mirro/releases">Releases <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="https://github.com/RealBhupesh/Mirro#readme">Source &amp; docs <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="https://github.com/RealBhupesh/Mirro/blob/main/LICENSE">MIT license <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
