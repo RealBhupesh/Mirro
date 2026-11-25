@@ -53,7 +53,7 @@ button { font: inherit; cursor: pointer; }
 
 .hero {
   --meadow-image: url("assets/meadow.webp");
-  --meadow-offset: clamp(12px, calc(15vw - 26vh + 165px), 135px);
+  --meadow-offset: clamp(12px, calc(15vw - 26vh + 180px), 150px);
   --meadow-y: 75%;
   position: relative;
   isolation: isolate;
@@ -550,7 +550,7 @@ button { font: inherit; cursor: pointer; }
 
 @media (max-width: 680px) {
   :root { --page: calc(100% - 36px); }
-  .hero { --meadow-offset: 28px; padding: 10px 12px 77px; min-height: 100svh; justify-content: flex-start; }
+  .hero { --meadow-offset: 40px; padding: 10px 12px 77px; min-height: 100svh; justify-content: flex-start; }
   .site-header { grid-template-columns: auto 1fr; padding: 3px 11px 4px 8px; min-height: 49px; }
   .site-header nav { justify-content: end; gap: clamp(11px, 3.2vw, 20px); }
   .site-header nav a { font-size: 12px; }
