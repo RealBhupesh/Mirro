@@ -1,0 +1,78 @@
+name: Mirro
+options:
+  deploymentTarget:
+    macOS: "12.3"
+
+settings:
+  base:
+    # Signing placeholders. Replace the empty team with your Apple Developer team ID.
+    DEVELOPMENT_TEAM: ""
+    MIRRO_APP_BUNDLE_ID: com.example.Mirro
+    MIRRO_CAMERA_BUNDLE_ID: &camera_id com.example.Mirro.Camera
+    MIRRO_LOGIN_BUNDLE_ID: com.example.Mirro.LoginItem
+    MIRRO_APP_GROUP: "$(TeamIdentifierPrefix)$(MIRRO_APP_BUNDLE_ID)"
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_HARDENED_RUNTIME: "YES"
+    SWIFT_VERSION: "5.0"
+    CURRENT_PROJECT_VERSION: "1"
+    MARKETING_VERSION: "0.1.0"
+
+packages:
+  MirrorCore:
+    path: .
+
+targets:
+  Mirro:
+    type: application
+    platform: macOS
+    sources: [App]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: "$(MIRRO_APP_BUNDLE_ID)"
+        INFOPLIST_FILE: Config/App-Info.plist
+        CODE_SIGN_ENTITLEMENTS: Config/App.entitlements
+    dependencies:
+      - package: MirrorCore
+      - target: *camera_id
+        link: false
+        embed: true
+        codeSign: true
+        copy:
+          destination: wrapper
+          subpath: Contents/Library/SystemExtensions
+      - target: MirroLoginItem
+        link: false
+        embed: true
+        codeSign: true
+        copy:
+          destination: wrapper
+          subpath: Contents/Library/LoginItems
+
+  # The product filename must match the camera extension's bundle identifier.
+  *camera_id :
+    type: system-extension
+    platform: macOS
+    sources: [CameraExtension]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: "$(MIRRO_CAMERA_BUNDLE_ID)"
+        INFOPLIST_FILE: Config/Camera-Info.plist
+        CODE_SIGN_ENTITLEMENTS: Config/Camera.entitlements
+    dependencies:
+      - package: MirrorCore
+
+  MirroLoginItem:
+    type: application
+    platform: macOS
+    sources: [LoginItem]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: "$(MIRRO_LOGIN_BUNDLE_ID)"
+        INFOPLIST_FILE: Config/LoginItem-Info.plist
+        CODE_SIGN_ENTITLEMENTS: Config/LoginItem.entitlements
+
+schemes:
+  Mirro:
+    build:
+      targets:
+        Mirro: all
