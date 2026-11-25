@@ -3,7 +3,9 @@
 
   let mirrored = false;
   let receivedChange = false;
-  const commands = new Set(["status", "twin", "confetti", "approved", "capture", "snap", "return", "swipe", "clear"]);
+  const commands = new Set(["status", "twin", "confetti", "approved", "capture", "snap", "return", "swipe", "finger", "clear"]);
+  const hands = new window.MirroHandInput();
+  delete window.MirroHandInput;
 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (sender.id !== chrome.runtime.id || message?.type !== "mirro:effect" || !commands.has(message.command)) return;
@@ -12,6 +14,7 @@
     document.addEventListener("mirro:effect-status", receive, { once: true });
     document.dispatchEvent(new CustomEvent("mirro:effect-command", { detail: message.command }));
     document.removeEventListener("mirro:effect-status", receive);
+    if (message.command === "finger" && status?.finger === "loading") hands.start();
     if (status?.active || status?.ready || status?.vanished || status?.countdown || status?.twin) sendResponse(status);
   });
 

@@ -39,7 +39,9 @@ These frames show the same synthetic camera feed before and after Mirro flips it
 | **Approved** | An approval stamp over the live video. |
 | **Snap** | A dust dissolve into a still image of your empty room. |
 
-For **Snap**, keep the camera still, click **Capture room**, and step out of frame during the five-second countdown. When the room is saved, click **Snap**, or arm **Swipe to snap** and sweep your hand sideways across the upper half of the frame. **Return** resumes live video. **Clear effects** resets the effects and discards the room image.
+For **Snap**, keep the camera still, click **Capture room**, and step out of frame during the five-second countdown. When the room is saved, arm **Finger snap** and wait for hand tracking to start. Hold your hand near the camera, press your thumb against your middle finger for a moment, then snap. You can also click **Snap** or arm **Swipe to snap** and sweep your hand sideways across the upper half of the frame. **Return** resumes live video. **Clear effects** resets the effects and discards the room image.
+
+Finger snap tracks your hand across video frames with [MediaPipe](ChromeExtension/vendor/mediapipe/README.md). Watch the popup for **Hand found**, then **Snap pose recognized**. You can snap with either hand, using your middle or ring finger. Mirro analyzes the camera frames locally while armed and uses no microphone input.
 
 ### Supported sites and privacy
 

@@ -8,6 +8,15 @@
   const sampleHeight = 40;
   const dustColors = ["#cca78a", "#e0cb9d", "#a28c78", "#efdfbc"];
 
+  function jpegDataUrl(image) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(image);
+    });
+  }
+
   function motionCenter(previous, current) {
     let count = 0;
     let totalX = 0;
@@ -119,10 +128,31 @@
       this.detector.reset();
       this.twin = false;
       this.swipe = false;
+      this.finger = "off";
+      this.fingerPhase = "searching";
+      this.handSession = 0;
+      this.lastHandSample = -Infinity;
+      this.encodingHand = false;
       this.capture = null;
       this.room = null;
       this.snap = null;
       this.stamp = null;
+
+      document.addEventListener("mirro:hand-status", (event) => {
+        if (this.finger === "off") return;
+        if (event.detail === "ready" || event.detail === "error") this.finger = event.detail;
+      });
+      document.addEventListener("mirro:hand-phase", (event) => {
+        if (this.finger === "ready" && ["searching", "tracking", "primed"].includes(event.detail)) {
+          this.fingerPhase = event.detail;
+        }
+      });
+      document.addEventListener("mirro:hand-snap", () => {
+        const camera = this.currentCamera(performance.now());
+        if (this.finger === "ready" && camera && this.room?.key === camera.key && !this.capture) {
+          this.beginSnap();
+        }
+      });
     }
 
     currentCamera(now) {
@@ -140,6 +170,7 @@
       if (command === "clear") {
         this.twin = false;
         this.swipe = false;
+        this.stopFinger();
         this.capture = null;
         this.room = null;
         this.snap = null;
@@ -158,12 +189,24 @@
         }
         if (command === "capture" && !this.snap) {
           this.swipe = false;
+          this.stopFinger();
           this.detector.reset();
           this.capture = { key: camera.key, time: now + roomCountdown };
         }
         if (command === "swipe" && roomReady && !this.snap) {
+          this.stopFinger();
           this.swipe = !this.swipe;
           this.detector.reset();
+        }
+        if (command === "finger" && roomReady && !this.snap && !this.capture) {
+          if (this.finger === "off" || this.finger === "error") {
+            this.swipe = false;
+            this.detector.reset();
+            this.fingerPhase = "searching";
+            this.finger = "loading";
+          } else {
+            this.stopFinger();
+          }
         }
         if (command === "snap" && roomReady && !this.capture) this.beginSnap();
       }
@@ -175,6 +218,8 @@
         countdown: this.capture ? Math.max(1, Math.ceil((this.capture.time - now) / 1000)) : 0,
         vanished: Boolean(this.snap),
         swipe: this.swipe,
+        finger: this.finger,
+        fingerPhase: this.fingerPhase,
         twin: this.twin,
         stamp: Boolean(this.stamp && now - this.stamp.time < stampDuration)
       };
@@ -185,7 +230,40 @@
       this.snap = { time: null, image: null, tiles: [] };
       this.stamp = null;
       this.swipe = false;
+      this.stopFinger();
       this.detector.reset();
+    }
+
+    stopFinger() {
+      if (this.finger === "off") return;
+      this.finger = "off";
+      this.fingerPhase = "searching";
+      this.handSession++;
+      this.lastHandSample = -Infinity;
+      this.encodingHand = false;
+      document.dispatchEvent(new Event("mirro:hand-off"));
+    }
+
+    sampleHand(frame, now) {
+      if (this.encodingHand || now - this.lastHandSample < 24) return;
+      this.lastHandSample = now;
+      const scale = Math.min(1, 640 / Math.max(frame.displayWidth, frame.displayHeight));
+      const width = Math.max(1, Math.round(frame.displayWidth * scale));
+      const height = Math.max(1, Math.round(frame.displayHeight * scale));
+      this.handCanvas ??= new OffscreenCanvas(width, height);
+      if (this.handCanvas.width !== width) this.handCanvas.width = width;
+      if (this.handCanvas.height !== height) this.handCanvas.height = height;
+      this.handCanvas.getContext("2d", { alpha: false }).drawImage(frame, 0, 0, width, height);
+      this.encodingHand = true;
+      const session = this.handSession;
+      this.handCanvas.convertToBlob({ type: "image/jpeg", quality: 0.84 }).then(jpegDataUrl).then((jpeg) => {
+        if (session !== this.handSession || this.finger !== "ready") return;
+        document.dispatchEvent(new CustomEvent("mirro:hand-frame", { detail: { jpeg, time: now } }));
+      }).catch(() => {
+        if (session === this.handSession && this.finger === "ready") this.finger = "error";
+      }).finally(() => {
+        if (session === this.handSession) this.encodingHand = false;
+      });
     }
 
     sample(image) {
@@ -268,6 +346,7 @@
           this.detector.sample(() => this.sample(frame), now)) {
         this.beginSnap();
       }
+      if (this.finger === "ready" && this.room?.key === camera.key && !this.capture) this.sampleHand(frame, now);
 
       const hidden = Boolean(this.snap && this.room);
       if (hidden && this.snap.time === null) this.makeDust(frame, now);

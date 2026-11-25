@@ -213,6 +213,7 @@ button[data-command]:disabled {
 }
 
 .snap-options button[data-command] {
+  padding-inline: 6px;
   background: transparent;
   color: #cbd8bd;
 }
