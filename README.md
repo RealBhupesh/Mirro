@@ -2,9 +2,9 @@
 
 Mirror the camera video other people see in **Google Meet** and **Microsoft Teams on the web**. Mirro for Chrome also puts live effects on your feed, from a split-screen twin to a room reveal. The separate macOS app publishes a virtual camera named **Mirro** for desktop meeting apps.
 
-**[Download the Chrome extension ZIP](https://github.com/RealBhupesh/Mirro/releases/latest/download/mirro-chrome-extension.zip)** · [Browse releases](https://github.com/RealBhupesh/Mirro/releases) · [Download the full source ZIP](https://github.com/RealBhupesh/Mirro/archive/refs/heads/main.zip)
+**[Visit the Mirro website](https://mirro-teal.vercel.app)** · **[Download the Chrome extension ZIP](https://github.com/RealBhupesh/Mirro/releases/latest/download/mirro-chrome-extension.zip)** · [Browse releases](https://github.com/RealBhupesh/Mirro/releases) · [Download the full source ZIP](https://github.com/RealBhupesh/Mirro/archive/refs/heads/main.zip)
 
-The companion product site is maintained in [`website/`](website/). It introduces Mirro’s camera effects, includes an interactive sample-feed demo, and walks through installing the Chrome extension.
+The companion product site is maintained in [`website/`](website/) and deploys from `main` on Vercel. It introduces Mirro’s camera effects, includes an interactive sample-feed demo, and walks through installing the Chrome extension.
 
 <img src="docs/images/chrome-popup.png" alt="Mirro’s Chrome popup with outgoing mirroring enabled and the live video effects visible" width="320">
 
