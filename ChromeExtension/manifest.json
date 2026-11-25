@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "Mirro",
+  "version": "0.3.0",
+  "description": "Mirror your camera and play live video effects in Google Meet and Microsoft Teams.",
+  "minimum_chrome_version": "111",
+  "permissions": ["storage"],
+  "icons": {
+    "16": "icons/mirro-16.png",
+    "32": "icons/mirro-32.png",
+    "48": "icons/mirro-48.png",
+    "128": "icons/mirro-128.png"
+  },
+  "action": {
+    "default_title": "Mirro",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/mirro-16.png",
+      "32": "icons/mirro-32.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://meet.google.com/*",
+        "https://teams.microsoft.com/*",
+        "https://teams.cloud.microsoft/*",
+        "https://teams.live.com/*"
+      ],
+      "js": ["effects.js", "camera.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://meet.google.com/*",
+        "https://teams.microsoft.com/*",
+        "https://teams.cloud.microsoft/*",
+        "https://teams.live.com/*"
+      ],
+      "js": ["settings-bridge.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}

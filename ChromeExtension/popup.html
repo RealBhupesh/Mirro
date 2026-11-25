@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mirro</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="popup.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Mirro</h1>
+      <p>Google Meet and Teams</p>
+    </header>
+    <div class="specimen" aria-hidden="true">
+      <div class="specimen-side specimen-source"><span></span></div>
+      <div class="specimen-side specimen-output"><span></span></div>
+    </div>
+    <label class="setting" for="mirror">
+      <span>
+        <strong id="setting-name">Mirror outgoing video</strong>
+        <small>Flip what others see.</small>
+      </span>
+      <input type="checkbox" role="switch" id="mirror" aria-labelledby="setting-name">
+    </label>
+    <section class="effects" aria-label="Live video effects">
+      <div class="controls">
+        <button type="button" data-command="twin" aria-pressed="false" disabled>Twin Mode</button>
+        <button type="button" data-command="confetti" disabled>Confetti</button>
+        <button type="button" data-command="approved" disabled>Approved</button>
+      </div>
+    </section>
+    <section class="snap" aria-labelledby="snap-title">
+      <h2 id="snap-title">Snap effect</h2>
+      <p id="camera-status" role="status">Turn on your camera in Meet or Teams to use effects.</p>
+      <div class="controls">
+        <button type="button" id="capture" data-command="capture" disabled>Capture room</button>
+        <button type="button" id="snap" data-command="snap" disabled>Snap</button>
+      </div>
+      <div class="snap-options">
+        <button type="button" id="swipe" data-command="swipe" aria-pressed="false" disabled>Swipe to snap</button>
+        <button type="button" data-command="clear" disabled>Clear effects</button>
+      </div>
+    </section>
+    <p class="error" id="error" role="status" hidden></p>
+  </main>
+</body>
+</html>
