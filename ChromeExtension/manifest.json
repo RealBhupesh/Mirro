@@ -1,15 +1,19 @@
 {
   "manifest_version": 3,
   "name": "Mirro",
-  "version": "0.5.0",
-  "description": "Mirror your camera and play live video effects in Google Meet and Microsoft Teams.",
+  "version": "0.7.1",
+  "description": "Mirror your camera, play live effects, and share music in Google Meet and Microsoft Teams.",
   "minimum_chrome_version": "111",
-  "permissions": ["storage", "offscreen"],
+  "permissions": ["storage", "offscreen", "sidePanel", "declarativeNetRequestWithHostAccess"],
+  "host_permissions": ["https://www.youtube.com/*"],
+  "side_panel": {
+    "default_path": "music-panel.html"
+  },
   "background": {
     "service_worker": "hand-background.js"
   },
   "content_security_policy": {
-    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; media-src 'self' blob: https:; frame-src https://www.youtube.com https://open.spotify.com;"
   },
   "icons": {
     "16": "icons/mirro-16.png",

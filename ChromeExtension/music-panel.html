@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mirro Music</title>
+  <link rel="stylesheet" href="music-panel.css">
+  <script type="module" src="music-panel.mjs"></script>
+</head>
+<body>
+  <main>
+    <h1>Mirro Music</h1>
+    <form id="provider-form">
+      <label for="provider-url">YouTube or Spotify link</label>
+      <div class="entry">
+        <input id="provider-url" type="text" inputmode="url" required autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button type="submit">Load</button>
+      </div>
+    </form>
+    <p class="note" id="provider-status" role="status">Embedded players play for you. To share audio with the call, use a file or direct stream.</p>
+    <section id="player" aria-label="Embedded player" hidden>
+      <div id="player-frame"></div>
+      <button class="text-action" id="close-player" type="button">Close player</button>
+    </section>
+    <details>
+      <summary>Share a file or direct stream</summary>
+      <p class="note">Open the share tab, then present it with tab audio in Meet or Teams.</p>
+      <a class="text-action" href="music.html" target="_blank" rel="noopener">Open share tab ↗</a>
+    </details>
+  </main>
+</body>
+</html>

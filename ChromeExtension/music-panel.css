@@ -1,0 +1,127 @@
+:root {
+  color-scheme: dark;
+  background: #172520;
+  color: #f0f3e8;
+  font: 14px/1.5 system-ui, sans-serif;
+  font-synthesis: none;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  max-width: 650px;
+  padding: 22px clamp(12px, 5vw, 24px) 28px;
+  margin-inline: auto;
+}
+
+h1 {
+  margin: 0 0 18px;
+  font: 700 30px/1.15 "Avenir Next", system-ui, sans-serif;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 650;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+input, button {
+  min-width: 0;
+  min-height: 38px;
+  border-radius: 5px;
+  font: inherit;
+  color: inherit;
+}
+
+input {
+  box-sizing: border-box;
+  border: 1px solid #819787;
+  padding-inline: 10px;
+  background: #203229;
+}
+
+button {
+  border: 0;
+  padding-inline: 12px;
+  background: #e2ead2;
+  color: #172520;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #cbd8bd;
+}
+
+:focus-visible {
+  outline: 2px solid #e2ead2;
+  outline-offset: 3px;
+}
+
+.note {
+  margin: 9px 0 0;
+  color: #c2cfc6;
+}
+
+.note[data-error] {
+  color: #f7c7a6;
+}
+
+iframe {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 16px;
+  border: 0;
+  background: #203229;
+}
+
+iframe.youtube {
+  height: auto;
+  min-height: 200px;
+  min-width: 200px;
+  aspect-ratio: 16 / 9;
+}
+
+iframe.spotify {
+  height: 352px;
+}
+
+.text-action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0;
+  background: transparent;
+  color: #e2ead2;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.text-action:hover {
+  background: transparent;
+  color: #fff;
+}
+
+details {
+  margin-top: 20px;
+}
+
+summary {
+  width: fit-content;
+  cursor: pointer;
+}
+
+@media (max-width: 244px) {
+  #player {
+    margin-inline: -6px;
+  }
+}

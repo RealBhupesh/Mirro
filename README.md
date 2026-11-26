@@ -45,6 +45,22 @@ For **Snap**, keep the camera still, click **Capture room**, and step out of fra
 
 Finger snap tracks your hand across video frames with [MediaPipe](ChromeExtension/vendor/mediapipe/README.md). Watch the popup for **Hand found**, then **Snap pose recognized**. You can snap with either hand, using your middle or ring finger. Mirro analyzes the camera frames locally while armed and uses no microphone input.
 
+### Music panel
+
+In the Mirro popup, click **Music panel** (Chrome 116 or later). Paste a full YouTube or Spotify link into the side panel, click **Load**, then use the provider’s play button. The panel stays open while you use the meeting. YouTube videos must allow embeds. Spotify may offer a preview depending on the content and your session.
+
+Mirro does not send embedded YouTube or Spotify audio to the call automatically. For media you can share, keep the Music panel visible, present the Chrome window from your meeting, and enable **Also share system audio** if the picker offers it. This shares the window as a presentation and can include other computer sounds. [Meet window audio requirements](https://support.google.com/meet/answer/16581830) · [Teams web audio sharing](https://support.microsoft.com/en-us/teams/meetings/share-sound-from-your-computer-in-microsoft-teams-meetings-or-live-events)
+
+To share only a local file or direct audio stream, use **Share a file or direct stream** below the player.
+
+### Share a file or direct stream
+
+1. In the Music panel, expand **Share a file or direct stream** and click **Open share tab**. Add local audio files or paste a direct HTTPS audio or radio stream URL under **Add a stream**.
+2. In your meeting, open **Present now** in Meet or **Share** in Teams. Select the **Mirro Music** Chrome tab, turn on **Also share tab audio**, and confirm. [Meet tab sharing](https://support.google.com/meet/answer/9308856) · [Teams web audio sharing](https://support.microsoft.com/en-us/teams/meetings/share-sound-from-your-computer-in-microsoft-teams-meetings-or-live-events)
+3. Start playback in Mirro Music. The meeting sees the shared player and hears its music independently of the microphone. Stop presenting in the meeting to end the share.
+
+Keep the music tab open during playback. The queue lives in that tab and clears when you close or reload it. Local files are played in the browser. Direct streams connect to the audio host.
+
 ### Supported sites and privacy
 
 The extension runs on [Google Meet](https://meet.google.com/) and Teams web at `teams.microsoft.com`, `teams.cloud.microsoft`, and `teams.live.com`. It processes frames in the meeting tab. The saved room image stays in that tab’s memory and is cleared when you reload or close it. Mirro stores your mirror preference in Chrome’s local extension storage. Your meeting app handles camera and microphone permissions, and Mirro leaves the audio track untouched.

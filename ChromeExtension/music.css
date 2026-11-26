@@ -1,0 +1,223 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  background: #172520;
+  color: #f0f3e8;
+  font-synthesis: none;
+  --quiet: #b8c7be;
+  --paper: #e2ead2;
+  --surface: #344d40;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  box-sizing: border-box;
+  width: min(100%, 740px);
+  padding: clamp(24px, 6vw, 64px) clamp(18px, 5vw, 40px);
+  margin-inline: auto;
+}
+
+h1, h2, p {
+  margin: 0;
+}
+
+h1 {
+  font: 700 clamp(2.1rem, 7vw, 3.35rem)/1.12 "Avenir Next", system-ui, sans-serif;
+}
+
+header p {
+  max-width: 55ch;
+  margin-block: 10px 26px;
+  color: var(--quiet);
+  line-height: 1.55;
+}
+
+header strong {
+  color: #f0f3e8;
+  font-weight: 650;
+}
+
+.deck {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: clamp(18px, 5vw, 34px);
+  align-items: center;
+  padding: clamp(16px, 4vw, 28px);
+  border-radius: 8px;
+  background: #26382e;
+}
+
+.record {
+  display: grid;
+  place-items: center;
+  width: 128px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, #172520 0 3px, #2c4035 3px 4px, #172520 4px 6px);
+}
+
+.record span {
+  width: 45px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #172520 0 3px, transparent 4px), conic-gradient(#cbd8bd 0 230deg, #91a98d 230deg 360deg);
+  animation: turn 4s linear infinite paused;
+}
+
+.deck.playing .record span {
+  animation-play-state: running;
+}
+
+@keyframes turn {
+  to { transform: rotate(360deg); }
+}
+
+.transport h2 {
+  margin-bottom: 10px;
+  font-size: clamp(1.15rem, 4vw, 1.55rem);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+audio:not([hidden]) {
+  display: block;
+  width: 100%;
+}
+
+#music-status, #stream-help {
+  margin-top: 8px;
+  color: var(--quiet);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+#music-status {
+  min-height: 1.45em;
+}
+
+.queue {
+  margin-top: 28px;
+}
+
+.queue h2 {
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+}
+
+.sources label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+input, button, summary {
+  color: inherit;
+  font: inherit;
+}
+
+input[type="file"] {
+  max-width: 100%;
+  font-size: 0.875rem;
+}
+
+button, input::file-selector-button {
+  min-height: 38px;
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 5px;
+  color: #f0f3e8;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+button:hover, input::file-selector-button:hover {
+  background: #436354;
+}
+
+button:focus-visible, input:focus-visible, summary:focus-visible, audio:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 3px;
+}
+
+details {
+  margin-top: 12px;
+}
+
+summary {
+  width: fit-content;
+  padding-block: 7px;
+  cursor: pointer;
+}
+
+form {
+  max-width: 430px;
+  margin-block: 8px 16px;
+}
+
+.stream-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+#stream-url {
+  min-width: 0;
+  padding-inline: 10px;
+  border: 1px solid #819787;
+  border-radius: 5px;
+  background: #203229;
+}
+
+#playlist {
+  display: grid;
+  gap: 6px;
+  padding: 0;
+  margin: 15px 0 0;
+  list-style: none;
+}
+
+#playlist:empty {
+  margin: 0;
+}
+
+#playlist li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 6px;
+}
+
+.track {
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.track[aria-current="true"] {
+  background: var(--paper);
+  color: #172520;
+}
+
+.track[aria-current="true"]:hover {
+  background: #cbd8bd;
+}
+
+@media (max-width: 510px) {
+  .deck {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .record {
+    justify-self: center;
+    width: 92px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .record span {
+    animation: none;
+  }
+}

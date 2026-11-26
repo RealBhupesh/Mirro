@@ -129,3 +129,18 @@ for (const button of effectButtons) {
 
 refreshEffects();
 setInterval(refreshEffects, 300);
+
+const musicButton = document.querySelector("#open-music");
+if (chrome.sidePanel?.open) {
+  chrome.windows.getCurrent().then(({ id }) => {
+    if (id === undefined) return;
+    musicButton.disabled = false;
+    musicButton.addEventListener("click", () => {
+      chrome.sidePanel.open({ windowId: id }).then(() => window.close()).catch(() => {
+        showError("Couldn’t open the music panel. Try again.");
+      });
+    });
+  }).catch(() => showError("Couldn’t find this Chrome window."));
+} else {
+  musicButton.textContent = "Music panel requires Chrome 116";
+}

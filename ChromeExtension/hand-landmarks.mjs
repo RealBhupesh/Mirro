@@ -3,8 +3,10 @@ import { HandLandmarker } from "./vendor/mediapipe/vision_bundle.mjs";
 const asset = (name) => chrome.runtime.getURL("vendor/mediapipe/" + name);
 const streams = new Map();
 const modelLimit = 2;
+const modelIdleMs = 30_000;
 const motionWidth = 112;
 const motionHeight = 80;
+let modelInitialization = Promise.resolve();
 
 class HandMotion {
   constructor() {
@@ -47,32 +49,72 @@ class HandMotion {
   }
 }
 
-function getStream(key) {
-  let stream = streams.get(key);
-  if (!stream) {
-    if (streams.size === modelLimit) {
-      const oldest = streams.keys().next().value;
-      const evicted = streams.get(oldest);
-      streams.delete(oldest);
-      evicted.model.then((model) => model.close(), () => {});
-    }
-    const model = HandLandmarker.createFromOptions({
+async function decompressAsset(name, type) {
+  const compressed = await fetch(asset(name));
+  if (!compressed.ok || !compressed.body) throw new Error("Couldn’t read " + name);
+  const decompressed = compressed.body.pipeThrough(new DecompressionStream("gzip"));
+  return new Response(decompressed, { headers: { "Content-Type": type } }).blob();
+}
+
+async function createLandmarker() {
+  const [wasm, model] = await Promise.all([
+    decompressAsset("vision_wasm_internal.wasm.gz", "application/wasm"),
+    decompressAsset("hand_landmarker.task.gz", "application/octet-stream")
+  ]);
+  const wasmUrl = URL.createObjectURL(wasm);
+  const modelUrl = URL.createObjectURL(model);
+  try {
+    return await HandLandmarker.createFromOptions({
       wasmLoaderPath: asset("vision_wasm_internal.js"),
-      wasmBinaryPath: asset("vision_wasm_internal.wasm")
+      wasmBinaryPath: wasmUrl
     }, {
-      baseOptions: { modelAssetPath: asset("hand_landmarker.task"), delegate: "CPU" },
+      baseOptions: { modelAssetPath: modelUrl, delegate: "CPU" },
       runningMode: "VIDEO",
       numHands: 1,
       minHandDetectionConfidence: 0.44,
       minHandPresenceConfidence: 0.44,
       minTrackingConfidence: 0.42
-    }).catch((error) => {
-      if (streams.get(key) === stream) streams.delete(key);
+    });
+  } finally {
+    URL.revokeObjectURL(wasmUrl);
+    URL.revokeObjectURL(modelUrl);
+  }
+}
+
+function removeStream(key, stream) {
+  if (streams.get(key) !== stream) return;
+  streams.delete(key);
+  clearTimeout(stream.idleTimer);
+  stream.model.then((model) => model.close(), () => {});
+}
+
+function expireStream(key, stream) {
+  const remaining = modelIdleMs - (performance.now() - stream.lastUsed);
+  if (remaining > 0) {
+    stream.idleTimer = setTimeout(() => expireStream(key, stream), remaining);
+  } else {
+    removeStream(key, stream);
+  }
+}
+
+function getStream(key) {
+  let stream = streams.get(key);
+  if (!stream) {
+    if (streams.size === modelLimit) {
+      const [oldestKey, oldest] = streams.entries().next().value;
+      removeStream(oldestKey, oldest);
+    }
+    // The MediaPipe loader uses a shared global while initializing each model.
+    const model = modelInitialization.then(createLandmarker).catch((error) => {
+      removeStream(key, stream);
       throw error;
     });
+    modelInitialization = model.then(() => {}, () => {});
     stream = { model, lastTimestamp: -1, motion: new HandMotion() };
+    stream.idleTimer = setTimeout(() => expireStream(key, stream), modelIdleMs);
   }
   // Each document needs its own tracking history, even if two tabs run at once.
+  stream.lastUsed = performance.now();
   streams.delete(key);
   streams.set(key, stream);
   return stream;

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Mirro Music</title>
+  <link rel="icon" href="icons/mirro-32.png">
+  <link rel="stylesheet" href="music.css">
+  <script src="music.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Mirro Music</h1>
+      <p>In Meet, choose <strong>Present now</strong>. In Teams, choose <strong>Share</strong>. Select the <strong>Mirro Music</strong> tab and turn on <strong>Also share tab audio</strong>.</p>
+    </header>
+
+    <section class="deck" aria-label="Music player">
+      <div class="record" aria-hidden="true"><span></span></div>
+      <div class="transport">
+        <h2 id="current-track">Nothing queued</h2>
+        <audio aria-label="Playback controls" controls controlslist="nodownload" preload="metadata" hidden></audio>
+        <p id="music-status" role="status">Add a file or stream to play.</p>
+      </div>
+    </section>
+
+    <section class="queue" aria-labelledby="queue-title">
+      <h2 id="queue-title">Queue</h2>
+      <div class="sources">
+        <label for="music-files">Add audio files</label>
+        <input type="file" id="music-files" accept="audio/*,.mp3,.m4a,.wav,.aac,.ogg,.opus,.flac,.webm" multiple>
+        <details>
+          <summary>Add a stream</summary>
+          <form id="stream-form">
+            <label for="stream-url">Direct HTTPS audio URL</label>
+            <div class="stream-entry">
+              <input type="password" id="stream-url" inputmode="url" autocomplete="off" spellcheck="false" aria-describedby="stream-help" required>
+              <button type="submit">Add</button>
+            </div>
+            <p id="stream-help">Use a direct audio or radio stream link. Service and playlist pages won’t play here.</p>
+          </form>
+        </details>
+      </div>
+      <ol id="playlist" aria-label="Queued tracks"></ol>
+    </section>
+  </main>
+</body>
+</html>
