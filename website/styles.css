@@ -17,7 +17,7 @@
   --footer: #142c26;
   --page: min(1160px, calc(100% - 96px));
   --header-top: 16px;
-  --header-height: 62px;
+  --header-height: 54px;
   --header-space: calc(var(--header-top) + var(--header-height));
   --body: system-ui, sans-serif;
   --display: Gambarino, Georgia, serif;
@@ -121,16 +121,24 @@ button { font: inherit; cursor: pointer; }
   width: min(1000px, calc(100% - 40px));
   min-height: var(--header-height);
   margin-inline: auto;
-  padding: 6px 8px 6px 15px;
+  padding: 4px 8px 4px 15px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 12px;
-  color: var(--green);
-  background: var(--paper);
-  border: 1px solid #d1dcc6;
-  border-radius: 7px 7px 17px 7px;
-  box-shadow: 0 3px 8px rgb(20 44 38 / 13%);
+  color: #f6f8ff;
+  background: #173574;
+  border: 1px solid rgb(187 211 255 / 22%);
+  border-top-color: rgb(187 211 255 / 34%);
+  border-radius: 7px 7px 15px 7px;
+}
+
+@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .site-header {
+    background: rgb(18 46 111 / 81%);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
 }
 
 .wordmark {
@@ -163,15 +171,21 @@ button { font: inherit; cursor: pointer; }
   white-space: nowrap;
   transition: background-color 150ms ease, color 150ms ease;
 }
-.site-header nav a:hover { color: var(--green); background: #e3ebd9; }
+.site-header nav a:hover { background-color: rgb(235 242 255 / 12%); }
+.site-header a:focus-visible {
+  outline-color: #e6efbf;
+  outline-offset: 1px;
+}
 .header-install {
   justify-self: end;
   padding-inline: 16px;
-  border-end-end-radius: 11px;
-  background: var(--green);
-  color: var(--white);
+  border-block: 4px solid transparent;
+  border-end-end-radius: 10px;
+  background-color: #e6efbf;
+  background-clip: padding-box;
+  color: #182813;
 }
-.header-install:hover { background: #304f3c; }
+.header-install:hover { background-color: #f8facc; }
 .text-link { display: inline-flex; align-items: center; gap: 6px; }
 .text-link span { display: inline-block; transition: transform 170ms ease; }
 .text-link:hover span { transform: translate(2px, -2px); }
@@ -570,14 +584,14 @@ button { font: inherit; cursor: pointer; }
   :root {
     --page: calc(100% - 36px);
     --header-top: 8px;
-    --header-height: 51px;
+    --header-height: 48px;
   }
   .hero { --meadow-offset: 40px; padding: var(--header-space) 12px 77px; min-height: 100svh; justify-content: flex-start; }
   .site-header {
     width: calc(100% - 24px);
     grid-template-columns: auto 1fr auto;
     gap: 4px;
-    padding: 2px 3px 3px 7px;
+    padding: 1px 4px 1px 7px;
   }
   .site-header nav { gap: 0; }
   .site-header nav a, .header-install { font-size: 12px; padding-inline: 8px; }
